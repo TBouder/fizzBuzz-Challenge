@@ -5,7 +5,7 @@
 ** @Filename:				challenge.go
 **
 ** @Last modified by:		Tbouder
-** @Last modified time:		Tuesday 11 February 2020 - 14:59:13
+** @Last modified time:		Tuesday 11 February 2020 - 14:59:43
 *******************************************************************************/
 
 package			main
@@ -49,7 +49,7 @@ var	rwMut sync.RWMutex
 **	Request containing the request as []byte
 **	Hits is an interger containing the number of hit for the Request
 ******************************************************************************/
-type	SStatsChallengeDB struct {
+type	sStatsChallengeDB struct {
 	Request	[]byte
 	Hits	int		`json:"hits"`
 }
@@ -58,7 +58,7 @@ type	SStatsChallengeDB struct {
 **	endpoint. It's the same as for performChallenge, but with the number of
 **	hits added to it.
 ******************************************************************************/
-type	SStatsChallenge struct {
+type	sStatsChallenge struct {
 	Hits	int		`json:"hits"`
 	Int1	int		`json:"int1"`
 	Int2	int		`json:"int2"`
@@ -105,10 +105,10 @@ func	setCurrentKey(bodyAsKey []byte, currentValue []byte) error {
 /******************************************************************************
 **	To get the most used parameters, we can access the mostHit and mostKey
 **	special elements from the DB, containing this information, and returns it
-**	as a SStatsChallengeDB struct
+**	as a sStatsChallengeDB struct
 ******************************************************************************/
-func	checkMostUsed() (SStatsChallengeDB, error) {
-	mostUsedRequest := SStatsChallengeDB{}
+func	checkMostUsed() (sStatsChallengeDB, error) {
+	mostUsedRequest := sStatsChallengeDB{}
 
 	hits, err := getValueFromKey([]byte(`mostHit`))
 	if (err != nil) {
@@ -184,16 +184,16 @@ func	saveStats(body []byte) error {
 **	Router handler to perform the Fizz-Buzz challenge statistiques
 ******************************************************************************/
 func	getChallengeStatistiquesHandler(ctx *fasthttp.RequestCtx) {
-	response := SStatsChallenge{}
+	response := sStatsChallenge{}
 	mostUsed, err := checkMostUsed()
 	if (err != nil) {
-		performChallenge_error(ctx, err)
+		resolveError(ctx, err)
 		return
 	}
 
 	err = json.Unmarshal(mostUsed.Request, &response)
 	if (err != nil) {
-		performChallenge_error(ctx, err)
+		resolveError(ctx, err)
 		return
 	}
 
