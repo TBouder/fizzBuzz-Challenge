@@ -5,7 +5,7 @@
 ** @Filename:				challenge.go
 **
 ** @Last modified by:		Tbouder
-** @Last modified time:		Tuesday 11 February 2020 - 14:46:43
+** @Last modified time:		Tuesday 11 February 2020 - 14:51:22
 *******************************************************************************/
 
 package			main
@@ -50,7 +50,7 @@ type	sPerformChallenge struct {
 ******************************************************************************/
 func	performChallengeCheckArguments(body *sPerformChallenge) error {
 	if (body.Int1 == body.Int2) {
-		return errors.New(`int1 is the same as int2. Aborting.`)
+		return errors.New(`int1 is the same as int2 -- aborting`)
 	} else if (body.Str1 == ``) {
 		return errors.New(`str1 is empty`)
 	} else if (body.Str2 == ``) {
