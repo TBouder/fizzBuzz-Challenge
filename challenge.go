@@ -5,7 +5,7 @@
 ** @Filename:				challenge.go
 **
 ** @Last modified by:		Tbouder
-** @Last modified time:		Tuesday 11 February 2020 - 14:23:34
+** @Last modified time:		Tuesday 11 February 2020 - 14:45:22
 *******************************************************************************/
 
 package			main
@@ -35,7 +35,7 @@ func	isMultiple(value, multiple int) bool {
 **	Str2 is a non-empty string, otherwise an error is returned
 **	All others arguments are ignored.
 ******************************************************************************/
-type	SPerformChallenge struct {
+type	sPerformChallenge struct {
 	Int1	int		`json:"int1"`
 	Int2	int		`json:"int2"`
 	Limit	int		`json:"limit"`
@@ -58,7 +58,7 @@ func	performChallenge_error(ctx *fasthttp.RequestCtx, err error) {
 **	Will check different case of error and returns it.
 **	Returns nil if there is no error
 ******************************************************************************/
-func	performChallenge_checkArguments(body *SPerformChallenge) error {
+func	performChallenge_checkArguments(body *sPerformChallenge) error {
 	if (body.Int1 == body.Int2) {
 		return errors.New(`int1 is the same as int2. Aborting.`)
 	} else if (body.Str1 == ``) {
@@ -80,7 +80,7 @@ func	performChallenge_checkArguments(body *SPerformChallenge) error {
 **	- will replace i by str1str2 when i is a multiple of int1 and int2
 **	- will not replace i if the above conditions do not match
 ******************************************************************************/
-func	performChallenge(body *SPerformChallenge) []string {
+func	performChallenge(body *sPerformChallenge) []string {
 	results := []string{}
 	for i := 1; i <= body.Limit; i++ {
 		result := ``
@@ -105,7 +105,7 @@ func	performChallenge(body *SPerformChallenge) []string {
 **	Router handler to perform the Fizz-Buzz challenge
 ******************************************************************************/
 func	performChallengeHandler(ctx *fasthttp.RequestCtx) {
-	body := &SPerformChallenge{}
+	body := &sPerformChallenge{}
 	
 	err := json.Unmarshal(ctx.PostBody(), &body)
 	if (err != nil) {
