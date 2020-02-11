@@ -5,7 +5,7 @@
 ** @Filename:				challenge.go
 **
 ** @Last modified by:		Tbouder
-** @Last modified time:		Tuesday 11 February 2020 - 14:23:40
+** @Last modified time:		Tuesday 11 February 2020 - 14:59:13
 *******************************************************************************/
 
 package			main
@@ -42,7 +42,7 @@ func	init() {
 **	In order to avoid data not being update with a lot of simultanous update,
 **	we will need to lock and unlock the database write operation
 ******************************************************************************/
-var	RWMut sync.RWMutex
+var	rwMut sync.RWMutex
 
 /******************************************************************************
 **	Structure containing the informations about the most used request
@@ -144,8 +144,8 @@ func	checkMostUsed() (SStatsChallengeDB, error) {
 **	Then, we update in the DB the current parameters hit count 
 ******************************************************************************/
 func	saveStats(body []byte) error {
-	RWMut.Lock()
-	defer RWMut.Unlock()
+	rwMut.Lock()
+	defer rwMut.Unlock()
 
 	currentMostUsedByte, errMostUsed := getValueFromKey([]byte(`mostHit`))
 	if (errMostUsed != nil && errMostUsed.Error() != `Key not found`) {
