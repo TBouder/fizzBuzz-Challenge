@@ -5,7 +5,7 @@
 ** @Filename:				challenge.go
 **
 ** @Last modified by:		Tbouder
-** @Last modified time:		Tuesday 11 February 2020 - 14:45:22
+** @Last modified time:		Tuesday 11 February 2020 - 14:46:43
 *******************************************************************************/
 
 package			main
@@ -44,21 +44,11 @@ type	sPerformChallenge struct {
 }
 
 /******************************************************************************
-**	Error handler for the performChallenge handler
-**	Send the error as a json as a response.
-******************************************************************************/
-func	performChallenge_error(ctx *fasthttp.RequestCtx, err error) {
-	ctx.Response.Header.SetContentType(`application/json`)
-	ctx.Response.SetStatusCode(400)
-	json.NewEncoder(ctx).Encode(err.Error())
-}
-
-/******************************************************************************
 **	Argument checker for the performChallenge handler
 **	Will check different case of error and returns it.
 **	Returns nil if there is no error
 ******************************************************************************/
-func	performChallenge_checkArguments(body *sPerformChallenge) error {
+func	performChallengeCheckArguments(body *sPerformChallenge) error {
 	if (body.Int1 == body.Int2) {
 		return errors.New(`int1 is the same as int2. Aborting.`)
 	} else if (body.Str1 == ``) {
@@ -109,13 +99,13 @@ func	performChallengeHandler(ctx *fasthttp.RequestCtx) {
 	
 	err := json.Unmarshal(ctx.PostBody(), &body)
 	if (err != nil) {
-		performChallenge_error(ctx, err)
+		resolveError(ctx, err)
 		return
 	}
 
-	err = performChallenge_checkArguments(body)
+	err = performChallengeCheckArguments(body)
 	if (err != nil) {
-		performChallenge_error(ctx, err)
+		resolveError(ctx, err)
 		return
 	}
 

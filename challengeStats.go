@@ -5,7 +5,7 @@
 ** @Filename:				challenge.go
 **
 ** @Last modified by:		Tbouder
-** @Last modified time:		Tuesday 11 February 2020 - 14:45:17
+** @Last modified time:		Tuesday 11 February 2020 - 14:46:38
 *******************************************************************************/
 
 package			main
@@ -187,13 +187,13 @@ func	getChallengeStatistiquesHandler(ctx *fasthttp.RequestCtx) {
 	response := sStatsChallenge{}
 	mostUsed, err := checkMostUsed()
 	if (err != nil) {
-		performChallenge_error(ctx, err)
+		resolveError(ctx, err)
 		return
 	}
 
 	err = json.Unmarshal(mostUsed.Request, &response)
 	if (err != nil) {
-		performChallenge_error(ctx, err)
+		resolveError(ctx, err)
 		return
 	}
 

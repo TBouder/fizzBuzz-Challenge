@@ -5,16 +5,23 @@
 ** @Filename:				main.go
 **
 ** @Last modified by:		Tbouder
-** @Last modified time:		Tuesday 11 February 2020 - 12:44:52
+** @Last modified time:		Tuesday 11 February 2020 - 14:47:10
 *******************************************************************************/
 
 package			main
 
 import			"log"
+import			"encoding/json"
 import			"github.com/microgolang/logs"
 import			"github.com/valyala/fasthttp"
 import			"github.com/lab259/cors"
 import			"github.com/buaazp/fasthttprouter"
+
+func	resolveError(ctx *fasthttp.RequestCtx, err error) {
+	ctx.Response.Header.SetContentType(`application/json`)
+	ctx.Response.SetStatusCode(400)
+	json.NewEncoder(ctx).Encode(err.Error())
+}
 
 func	initRouter() func(*fasthttp.RequestCtx) {
 	router := fasthttprouter.New()
