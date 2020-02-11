@@ -1,0 +1,14 @@
+version: '3.3'
+
+services:
+  #############################################################################
+  ## IMAGE FOR THE MEMBER MANAGEMENT GRPC MICROSERVICE
+  #############################################################################
+  fizzbuzz:
+    container_name: fizzbuzz
+    build: .
+    restart: always
+    volumes:
+      - ./badger:/go/src/github.com/TBouder/fizzBuzz-Challenge/badger
+    ports:
+        - "8000:8000"
