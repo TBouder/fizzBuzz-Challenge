@@ -33,12 +33,6 @@ The program will expose a Rest API which will listen to the port `:8000`.
 
 
 ## Usage
-> ##### getChallengeStatistiques
-> Get the most used request and the number of hits for this request. Request must be a GET request. 
-`curl -X GET localhost:8000/getChallengeStatistiques/`
->
->Reponse example : `{"hits":1,"int1":3,"int2":5,"limit":10,"str1":"fizz","str2":"buzz"}`
-
 > ##### performChallenge
 > Perfom the challenge with the given parameters. Parameters should be in JSON and as a POST request
 `curl -d '{"int1":3,"int2":5,"limit":16,"str1":"fizz","str2":"buzz"}' -H "Content-Type: application/json" -X POST localhost:8000/performChallenge/`
@@ -52,3 +46,10 @@ The program will expose a Rest API which will listen to the port `:8000`.
 > * str1 and str2 must not be empty
 > * limit must not be 0
 > * limit must not be negative
+
+
+> ##### getChallengeStatistiques
+> Get the most used request and the number of hits for this request. Request must be a GET request. 
+`curl -X GET localhost:8000/getChallengeStatistiques/`
+>
+>Reponse example : `{"hits":1,"int1":3,"int2":5,"limit":10,"str1":"fizz","str2":"buzz"}`
