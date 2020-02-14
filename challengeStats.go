@@ -5,38 +5,16 @@
 ** @Filename:				challenge.go
 **
 ** @Last modified by:		Tbouder
-** @Last modified time:		Tuesday 11 February 2020 - 14:59:43
+** @Last modified time:		Friday 14 February 2020 - 13:33:33
 *******************************************************************************/
 
 package			main
 
-import			"log"
 import			"sync"
 import			"strconv"
 import			"encoding/json"
 import			"github.com/valyala/fasthttp"
 import			"github.com/dgraph-io/badger"
-
-/******************************************************************************
-**	To get the statistiques and get the number of hits per parameters in
-**	order to find the most used parameters, we need to store theses
-**	informations somewhere.
-**	It could be cache, with an array of struct, but the data will not be
-**	persistent.
-**	In order to get persistent data, we are using BadgerDB, which is easy to
-**	setup and effective for this type of challenge.
-**	=> https://github.com/dgraph-io/badger
-**	
-**	The DB instance is opened on init.
-******************************************************************************/
-var DB *badger.DB
-func	init() {
-	db, err := badger.Open(badger.DefaultOptions("./badger"))
-	if err != nil {
-		log.Fatal(err)
-	}
-	DB = db
-}
 
 /******************************************************************************
 **	In order to avoid data not being update with a lot of simultanous update,

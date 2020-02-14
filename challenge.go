@@ -5,7 +5,7 @@
 ** @Filename:				challenge.go
 **
 ** @Last modified by:		Tbouder
-** @Last modified time:		Tuesday 11 February 2020 - 14:51:22
+** @Last modified time:		Friday 14 February 2020 - 11:16:00
 *******************************************************************************/
 
 package			main
@@ -19,7 +19,7 @@ import			"encoding/json"
 **	Function to check if a value is a multiple of another one.
 **	0 is a multiple for every values.
 ******************************************************************************/
-func	isMultiple(value, multiple int) bool {
+func	IsMultiple(value, multiple int) bool {
 	if (multiple == 0) {
 		return true
 	}
@@ -70,16 +70,16 @@ func	performChallengeCheckArguments(body *sPerformChallenge) error {
 **	- will replace i by str1str2 when i is a multiple of int1 and int2
 **	- will not replace i if the above conditions do not match
 ******************************************************************************/
-func	performChallenge(body *sPerformChallenge) []string {
+func	PerformChallenge(int1, int2, limit int, str1, str2 string) []string {
 	results := []string{}
-	for i := 1; i <= body.Limit; i++ {
+	for i := 1; i <= limit; i++ {
 		result := ``
 
-		if (isMultiple(i, body.Int1)) {
-			result += body.Str1
+		if (IsMultiple(i, int1)) {
+			result += str1
 		}
-		if (isMultiple(i, body.Int2)) {
-			result += body.Str2
+		if (IsMultiple(i, int2)) {
+			result += str2
 		}
 
 		if (result == ``) {
@@ -111,7 +111,7 @@ func	performChallengeHandler(ctx *fasthttp.RequestCtx) {
 
 	saveStats(ctx.PostBody())
 
-	results := performChallenge(body)
+	results := PerformChallenge(body.Int1, body.Int2, body.Limit, body.Str1, body.Str2)
 	ctx.Response.Header.SetContentType(`application/json`)
 	ctx.Response.SetStatusCode(200)
 	json.NewEncoder(ctx).Encode(results)

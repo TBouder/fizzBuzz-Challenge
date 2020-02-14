@@ -5,7 +5,7 @@
 ** @Filename:				main.go
 **
 ** @Last modified by:		Tbouder
-** @Last modified time:		Tuesday 11 February 2020 - 14:47:10
+** @Last modified time:		Friday 14 February 2020 - 13:08:28
 *******************************************************************************/
 
 package			main
@@ -14,8 +14,32 @@ import			"log"
 import			"encoding/json"
 import			"github.com/microgolang/logs"
 import			"github.com/valyala/fasthttp"
-import			"github.com/lab259/cors"
 import			"github.com/buaazp/fasthttprouter"
+import			"github.com/dgraph-io/badger"
+
+var DB *badger.DB
+
+/******************************************************************************
+**	To get the statistiques and get the number of hits per parameters in
+**	order to find the most used parameters, we need to store theses
+**	informations somewhere.
+**	It could be cache, with an array of struct, but the data will not be
+**	persistent.
+**	In order to get persistent data, we are using BadgerDB, which is easy to
+**	setup and effective for this type of challenge.
+**	=> https://github.com/dgraph-io/badger
+**	
+**	The DB instance is opened on init.
+******************************************************************************/
+func	initDB(path string) (*badger.DB) {
+	options := badger.DefaultOptions(path)
+	options.Logger = nil
+	db, err := badger.Open(options)
+	if (err != nil) {
+		log.Fatal(err)
+	}
+	return db
+}
 
 func	resolveError(ctx *fasthttp.RequestCtx, err error) {
 	ctx.Response.Header.SetContentType(`application/json`)
@@ -30,27 +54,10 @@ func	initRouter() func(*fasthttp.RequestCtx) {
 	return router.Handler
 }
 
-func	expose() {
+
+func	main() {
+	DB = initDB(`./badger`)
 	defer DB.Close()
-	c := cors.New(cors.Options{
-		AllowOriginFunc: func(origin string) bool {
-			return true
-		},
-		AllowedMethods: []string{`GET`, `POST`, `DELETE`, `PUT`, `OPTIONS`, `OPTION`},
-		AllowedHeaders:	[]string{
-			`Access-Control-Allow-Origin`,
-			`Access-Control-Allow-Credentials`,
-			`Content-Type`,
-			`Transfer-Encoding`,
-		},
-		AllowCredentials: true,
-	})
-
-	handler := c.Handler(initRouter())
 	logs.Success(`Listening on :8000`)
-	log.Fatal(fasthttp.ListenAndServe(`:8000`, handler))
-}
-
-func	main()	{
-	expose()
+	log.Fatal(fasthttp.ListenAndServe(`:8000`, initRouter()))
 }
