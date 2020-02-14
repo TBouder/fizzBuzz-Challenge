@@ -5,7 +5,7 @@
 ** @Filename:				challenge.test.go
 **
 ** @Last modified by:		Tbouder
-** @Last modified time:		Friday 14 February 2020 - 13:44:26
+** @Last modified time:		Friday 14 February 2020 - 14:17:58
 *******************************************************************************/
 
 package main
@@ -191,4 +191,27 @@ func	TestPerformChallenge(t *testing.T) {
 	**	mult of both = fizzbuzz
 	**************************************************************************/
 	testChallenge(t, sTestPerformChallenge{-2, -4, -20, `fizz`, `buzz`, []string{}})
+}
+
+/******************************************************************************
+**	Helper for the TestPerformChallenge testing function to actually test
+**	the getValue function and check if the result is correct
+******************************************************************************/
+func	testGetValue(t *testing.T, index, int1, int2 int, str1, str2 string, expectedResult string) {
+	result := getValue(index, int1, int2, str1, str2)
+	if (result != expectedResult) {
+		t.Errorf("FAIL : PerformChallenge with (%d, %d, %d, %s, %s), got: [%s] instead of [%s].", index, int1, int2, str1, str2, result, expectedResult)
+	}
+}
+/******************************************************************************
+**	TestIndividualValues defines a list a parameters to test if the fuzz-bizz
+**	challenge is correct
+******************************************************************************/
+func	TestIndividualValues(t *testing.T) {
+	testGetValue(t, 1, 1, 1, `fizz`, `buzz`, `fizzbuzz`)
+	testGetValue(t, 15, 5, 2, `fizz`, `buzz`, `fizz`)
+	testGetValue(t, 3, 4, 7, `fizz`, `buzz`, `3`)
+	testGetValue(t, 4, 3, 2, `fizz`, `buzz`, `buzz`)
+	testGetValue(t, 11, 2, 11, `fizz`, `bazz`, `bazz`)
+	testGetValue(t, -42, 2, 4, `fizz`, `buzz`, `fizz`)
 }

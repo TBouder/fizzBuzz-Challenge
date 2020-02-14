@@ -5,7 +5,7 @@
 ** @Filename:				challenge.go
 **
 ** @Last modified by:		Tbouder
-** @Last modified time:		Friday 14 February 2020 - 11:16:00
+** @Last modified time:		Friday 14 February 2020 - 14:08:27
 *******************************************************************************/
 
 package			main
@@ -63,6 +63,19 @@ func	performChallengeCheckArguments(body *sPerformChallenge) error {
 	return nil
 }
 
+func	getValue(index, int1, int2 int, str1, str2 string) string {
+	result := ``
+	if (IsMultiple(index, int1)) {
+		result += str1
+	}
+	if (IsMultiple(index, int2)) {
+		result += str2
+	}
+	if (result == ``) {
+		result = strconv.Itoa(index)
+	}
+	return result
+}
 /******************************************************************************
 **	From 1 to limit :
 **	- will replace i by str1 when i is a multiple of int1
@@ -73,20 +86,7 @@ func	performChallengeCheckArguments(body *sPerformChallenge) error {
 func	PerformChallenge(int1, int2, limit int, str1, str2 string) []string {
 	results := []string{}
 	for i := 1; i <= limit; i++ {
-		result := ``
-
-		if (IsMultiple(i, int1)) {
-			result += str1
-		}
-		if (IsMultiple(i, int2)) {
-			result += str2
-		}
-
-		if (result == ``) {
-			results = append(results, strconv.Itoa(i))
-		} else {
-			results = append(results, result)
-		}
+		results = append(results, getValue(i, int1, int2, str1, str2))
 	}
 	return results
 }
