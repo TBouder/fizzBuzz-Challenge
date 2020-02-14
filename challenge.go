@@ -5,7 +5,7 @@
 ** @Filename:				challenge.go
 **
 ** @Last modified by:		Tbouder
-** @Last modified time:		Friday 14 February 2020 - 14:08:27
+** @Last modified time:		Friday 14 February 2020 - 14:20:54
 *******************************************************************************/
 
 package			main
@@ -63,6 +63,10 @@ func	performChallengeCheckArguments(body *sPerformChallenge) error {
 	return nil
 }
 
+/******************************************************************************
+**	Get the string to append to the result for the given index and parameters
+**	informations
+******************************************************************************/
 func	getValue(index, int1, int2 int, str1, str2 string) string {
 	result := ``
 	if (IsMultiple(index, int1)) {
