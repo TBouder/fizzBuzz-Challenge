@@ -5,7 +5,7 @@
 ** @Filename:				challenge.test.go
 **
 ** @Last modified by:		Tbouder
-** @Last modified time:		Friday 14 February 2020 - 14:17:58
+** @Last modified time:		Friday 14 February 2020 - 14:21:44
 *******************************************************************************/
 
 package main
@@ -117,9 +117,9 @@ func	TestIsMultiple(t *testing.T) {
 **	the PerformChallenge function and check if the result is correct
 ******************************************************************************/
 func	testChallenge(t *testing.T, each sTestPerformChallenge) {
-	result := PerformChallenge(each.int1, each.int2, each.limit, each.str1, each.str2)
+	result := performChallenge(each.int1, each.int2, each.limit, each.str1, each.str2)
 	if (!reflect.DeepEqual(result, each.result)) {
-		t.Errorf("FAIL : PerformChallenge with (%d, %d, %d, %s, %s), got: [%s] instead of [%s].", each.int1, each.int2, each.limit, each.str1, each.str2, result, each.result)
+		t.Errorf("FAIL : performChallenge with (%d, %d, %d, %s, %s), got: [%s] instead of [%s].", each.int1, each.int2, each.limit, each.str1, each.str2, result, each.result)
 	}
 }
 
@@ -200,7 +200,7 @@ func	TestPerformChallenge(t *testing.T) {
 func	testGetValue(t *testing.T, index, int1, int2 int, str1, str2 string, expectedResult string) {
 	result := getValue(index, int1, int2, str1, str2)
 	if (result != expectedResult) {
-		t.Errorf("FAIL : PerformChallenge with (%d, %d, %d, %s, %s), got: [%s] instead of [%s].", index, int1, int2, str1, str2, result, expectedResult)
+		t.Errorf("FAIL : getValue with (%d, %d, %d, %s, %s), got: [%s] instead of [%s].", index, int1, int2, str1, str2, result, expectedResult)
 	}
 }
 /******************************************************************************

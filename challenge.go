@@ -5,7 +5,7 @@
 ** @Filename:				challenge.go
 **
 ** @Last modified by:		Tbouder
-** @Last modified time:		Friday 14 February 2020 - 14:20:54
+** @Last modified time:		Friday 14 February 2020 - 14:21:41
 *******************************************************************************/
 
 package			main
@@ -87,7 +87,7 @@ func	getValue(index, int1, int2 int, str1, str2 string) string {
 **	- will replace i by str1str2 when i is a multiple of int1 and int2
 **	- will not replace i if the above conditions do not match
 ******************************************************************************/
-func	PerformChallenge(int1, int2, limit int, str1, str2 string) []string {
+func	performChallenge(int1, int2, limit int, str1, str2 string) []string {
 	results := []string{}
 	for i := 1; i <= limit; i++ {
 		results = append(results, getValue(i, int1, int2, str1, str2))
@@ -115,7 +115,7 @@ func	performChallengeHandler(ctx *fasthttp.RequestCtx) {
 
 	saveStats(ctx.PostBody())
 
-	results := PerformChallenge(body.Int1, body.Int2, body.Limit, body.Str1, body.Str2)
+	results := performChallenge(body.Int1, body.Int2, body.Limit, body.Str1, body.Str2)
 	ctx.Response.Header.SetContentType(`application/json`)
 	ctx.Response.SetStatusCode(200)
 	json.NewEncoder(ctx).Encode(results)
